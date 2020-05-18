@@ -17,17 +17,18 @@ namespace MusicHelper
     {
         IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader;
-        List<string> musicPath = new List<string>();
+        List<FileInfo> addedMusic = new List<FileInfo>();
         bool isPlaing = false;
+        FileInfo openedFile;
 
         public Form1()
         {
             InitializeComponent();
 
             // musicValue.Maximum = Convert.ToInt32(audioFileReader.Length);
-            foreach (var path in musicPath)
+            foreach (var path in addedMusic)
             {
-                musicList.Items.Add(path);
+                musicListBox.Items.Add(path.FullName);
             }
         }
 
@@ -45,7 +46,7 @@ namespace MusicHelper
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    filePath = openFileDialog.FileName;
+                    openedFile =  new FileInfo(openFileDialog.FileName);
 
                     var fileStream = openFileDialog.OpenFile();
 
@@ -56,9 +57,10 @@ namespace MusicHelper
                 }
             }
 
-            musicPath.Add(filePath);
-            audioFileReader = new AudioFileReader(filePath);
-            musicList.Items.Add(filePath);
+
+            addedMusic.Add(openedFile);
+            audioFileReader = new AudioFileReader(openedFile.FullName); // это сразу же музыку проигрывает
+            musicListBox.Items.Add(openedFile.Name);
         }
         private void playSimpleSound()
         {            
@@ -103,12 +105,15 @@ namespace MusicHelper
 
         }
 
-        private void musicList_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             stopSimpleSound();
             startButton.Text = "▶";
-            string selectedPath = musicList.SelectedItem.ToString();
-            audioFileReader = new AudioFileReader(selectedPath);
+            isPlaing = false;
+            string selectedPath = musicListBox.SelectedItem.ToString(); // вот тут ломается
+            audioFileReader = new AudioFileReader(selectedPath); // вот тут ломается
         }
     }
 }

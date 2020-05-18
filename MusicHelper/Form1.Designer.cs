@@ -33,7 +33,7 @@
             this.startButton = new System.Windows.Forms.Button();
             this.loudTrackBar = new System.Windows.Forms.TrackBar();
             this.musicValue = new System.Windows.Forms.TrackBar();
-            this.musicList = new System.Windows.Forms.ComboBox();
+            this.musicListBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).BeginInit();
             this.SuspendLayout();
@@ -83,21 +83,21 @@
             this.musicValue.TabIndex = 5;
             this.musicValue.Scroll += new System.EventHandler(this.musicValue_Scroll);
             // 
-            // musicList
+            // musicListBox
             // 
-            this.musicList.FormattingEnabled = true;
-            this.musicList.Location = new System.Drawing.Point(594, 12);
-            this.musicList.Name = "musicList";
-            this.musicList.Size = new System.Drawing.Size(121, 21);
-            this.musicList.TabIndex = 6;
-            this.musicList.SelectedIndexChanged += new System.EventHandler(this.musicList_SelectedIndexChanged);
+            this.musicListBox.FormattingEnabled = true;
+            this.musicListBox.Location = new System.Drawing.Point(594, 40);
+            this.musicListBox.Name = "musicListBox";
+            this.musicListBox.Size = new System.Drawing.Size(120, 147);
+            this.musicListBox.TabIndex = 7;
+            this.musicListBox.SelectedIndexChanged += new System.EventHandler(this.musicListBox_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(727, 450);
-            this.Controls.Add(this.musicList);
+            this.Controls.Add(this.musicListBox);
             this.Controls.Add(this.musicValue);
             this.Controls.Add(this.loudTrackBar);
             this.Controls.Add(this.startButton);
@@ -119,7 +119,7 @@
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.TrackBar loudTrackBar;
         private System.Windows.Forms.TrackBar musicValue;
-        private System.Windows.Forms.ComboBox musicList;
+        private System.Windows.Forms.ListBox musicListBox;
     }
 }
 
