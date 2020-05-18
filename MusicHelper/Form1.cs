@@ -9,12 +9,15 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
+using Timer = System.Timers.Timer;
 
 namespace MusicHelper
 {
     public partial class Form1 : Form
     {
+        Timer secondTimer;
         IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader;
         List<FileInfo> addedMusic = new List<FileInfo>();
@@ -25,7 +28,6 @@ namespace MusicHelper
         {
             InitializeComponent();
 
-            // musicValue.Maximum = Convert.ToInt32(audioFileReader.Length);
             foreach (var path in addedMusic)
             {
                 musicListBox.Items.Add(path.FullName);
@@ -34,86 +36,101 @@ namespace MusicHelper
 
         private void openButton_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
+            stopSimpleSound();
+          
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
                 openFileDialog.Filter = "mp3 files (*.mp3)|*.mp3";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    openedFile =  new FileInfo(openFileDialog.FileName);
+                    openedFile = new FileInfo(openFileDialog.FileName);
 
-                    var fileStream = openFileDialog.OpenFile();
-
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        fileContent = reader.ReadToEnd();
-                    }
+                    addedMusic.Add(openedFile);
+                    audioFileReader = new AudioFileReader(openedFile.FullName);
+                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                    musicListBox.Items.Add(openedFile.Name);
                 }
             }
 
-
-            addedMusic.Add(openedFile);
-            audioFileReader = new AudioFileReader(openedFile.FullName); // это сразу же музыку проигрывает
-            musicListBox.Items.Add(openedFile.Name);
+            musicValue.Value = 1;
         }
         private void playSimpleSound()
-        {            
+        {
+            //musicValue.Value = Convert.ToInt32(audioFileReader.Position);
+            //ChangeMusicValuseOutput(); //TODO убрать комментарий чтобы работало
             waveOutDevice.Init(audioFileReader);
+            isPlaing = true;
+            startButton.Text = "┃┃";
             waveOutDevice.Play();
         }
         private void stopSimpleSound()
         {
-         //   waveOutDevice.Init(audioFileReader);
+            startButton.Text = "▶";
+            isPlaing = false;
+            //secondTimer.Stop(); //TODO проблема при открытии трека
             waveOutDevice.Stop();
         }
 
-        private void musicBar_Click(object sender, EventArgs e)
-        {
-            
-            // musicBar.Value 
-        }
-
         private void startButton_Click(object sender, EventArgs e)
-        { 
+        {
             if (!isPlaing && audioFileReader != null)
             {
-                playSimpleSound();
-                startButton.Text = "┃┃";
-                isPlaing = true;
-            } 
+                playSimpleSound();                
+            }
             else
             {
-                stopSimpleSound();
-                startButton.Text = "▶";
-                isPlaing = false;
+                stopSimpleSound();                
             }
         }
 
         private void loudTrackBar_Scroll(object sender, EventArgs e)
         {
-
+            audioFileReader.Volume = loudTrackBar.Value;
         }
 
         private void musicValue_Scroll(object sender, EventArgs e)
         {
-
+            //stopSimpleSound();
+            audioFileReader.Position = 0;
+            audioFileReader.Skip(musicValue.Value);
+            //playSimpleSound();
         }
-
-
 
         private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             stopSimpleSound();
-            startButton.Text = "▶";
-            isPlaing = false;
-            string selectedPath = musicListBox.SelectedItem.ToString(); // вот тут ломается
-            audioFileReader = new AudioFileReader(selectedPath); // вот тут ломается
+            string selectedSongName = musicListBox.SelectedItem.ToString(); 
+
+            var songFileInfo = addedMusic.Where(x => x.Name == selectedSongName).FirstOrDefault();
+
+            if (songFileInfo != null)
+            {
+                audioFileReader = new AudioFileReader(songFileInfo.FullName);
+                musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+            }
+        }
+        private void ChangeMusicValuseOutput()
+        {
+            {
+                SetTimer();
+            }
+       
+            void SetTimer()
+            {
+                secondTimer = new Timer(1000);
+                secondTimer.Elapsed += OnTimedEvent;
+                secondTimer.AutoReset = true;
+                secondTimer.Enabled = true;
+            }
+       
+            void OnTimedEvent(Object source, ElapsedEventArgs e)
+            {
+                musicValue.Value = musicValue.Value+1; //TODO вот тут проблема вылазит про потоки
+            }
         }
     }
 }
