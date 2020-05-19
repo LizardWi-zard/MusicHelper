@@ -1,30 +1,24 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
-using Timer = System.Timers.Timer;
 
 namespace MusicHelper
 {
-    public partial class Form1 : Form
+    public partial class form1 : Form
     {
-        Timer secondTimer;
+        Timer timer;
         IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader;
         List<FileInfo> addedMusic = new List<FileInfo>();
         bool isPlaing = false;
         FileInfo openedFile;
+        string selectedSongName;
 
-        public Form1()
+        public form1()
         {
             InitializeComponent();
 
@@ -37,7 +31,6 @@ namespace MusicHelper
         private void openButton_Click(object sender, EventArgs e)
         {
             stopSimpleSound();
-          
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -55,13 +48,13 @@ namespace MusicHelper
                     musicListBox.Items.Add(openedFile.Name);
                 }
             }
-
-            musicValue.Value = 1;
+            musicValue.Value = 0;
         }
         private void playSimpleSound()
         {
             //musicValue.Value = Convert.ToInt32(audioFileReader.Position);
-            //ChangeMusicValuseOutput(); //TODO убрать комментарий чтобы работало
+            
+            ChangeMusicValuseOutput();
             waveOutDevice.Init(audioFileReader);
             isPlaing = true;
             startButton.Text = "┃┃";
@@ -70,8 +63,9 @@ namespace MusicHelper
         private void stopSimpleSound()
         {
             startButton.Text = "▶";
+            if (isPlaing)
+                timer.Stop();
             isPlaing = false;
-            //secondTimer.Stop(); //TODO проблема при открытии трека
             waveOutDevice.Stop();
         }
 
@@ -79,11 +73,11 @@ namespace MusicHelper
         {
             if (!isPlaing && audioFileReader != null)
             {
-                playSimpleSound();                
+                playSimpleSound();
             }
             else
             {
-                stopSimpleSound();                
+                stopSimpleSound();
             }
         }
 
@@ -94,16 +88,17 @@ namespace MusicHelper
 
         private void musicValue_Scroll(object sender, EventArgs e)
         {
-            //stopSimpleSound();
+            stopSimpleSound();
             audioFileReader.Position = 0;
             audioFileReader.Skip(musicValue.Value);
-            //playSimpleSound();
+            playSimpleSound();
         }
 
         private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             stopSimpleSound();
-            string selectedSongName = musicListBox.SelectedItem.ToString(); 
+            musicValue.Value = 0;
+            selectedSongName = musicListBox.SelectedItem.ToString();
 
             var songFileInfo = addedMusic.Where(x => x.Name == selectedSongName).FirstOrDefault();
 
@@ -113,24 +108,99 @@ namespace MusicHelper
                 musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
             }
         }
+
         private void ChangeMusicValuseOutput()
         {
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += UpdateListeningProgress;
+            timer.Start();
+        }
+
+        private void UpdateListeningProgress(Object sender, EventArgs args)
+        {
+            if(musicValue.Value < musicValue.Maximum)
+            musicValue.Value++;
+            else
             {
-                SetTimer();
+                musicValue.Value = 0;
+                stopSimpleSound();
             }
-       
-            void SetTimer()
+        }
+
+
+        private void previousTrack_Click(object sender, EventArgs e)
+        {
+            stopSimpleSound();
+
+            int i = addedMusic.Count - 1;
+            foreach (var currentSong in addedMusic)
             {
-                secondTimer = new Timer(1000);
-                secondTimer.Elapsed += OnTimedEvent;
-                secondTimer.AutoReset = true;
-                secondTimer.Enabled = true;
+                if (i > 0)
+                {
+                    if (selectedSongName == currentSong.Name)
+                    {
+                        audioFileReader = new AudioFileReader(addedMusic[i - 1].FullName);
+                        musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                        musicValue.Value = 0;
+                        musicListBox.SelectedIndex = musicListBox.SelectedIndex - 1;
+
+                        break;
+                    }
+                }
+                else
+                {
+                    audioFileReader = new AudioFileReader(addedMusic[addedMusic.Count - 1].FullName);
+                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                    musicValue.Value = 0;
+                    musicListBox.SelectedIndex = addedMusic.Count - 1;
+                }
+                i--;
             }
-       
-            void OnTimedEvent(Object source, ElapsedEventArgs e)
+        }
+
+        private void nextTrack_Click(object sender, EventArgs e) 
+        {
+            stopSimpleSound();
+
+            int i = 0;
+            foreach(var currentSong in addedMusic)
             {
-                musicValue.Value = musicValue.Value+1; //TODO вот тут проблема вылазит про потоки
+                if (i < addedMusic.Count - 1)
+                {
+                    if (selectedSongName == currentSong.Name)
+                    {
+                        audioFileReader = new AudioFileReader(addedMusic[i + 1].FullName);
+                        musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                        musicValue.Value = 0;
+                        musicListBox.SelectedIndex = musicListBox.SelectedIndex + 1;
+
+                        break;
+                    }
+                }
+                else
+                {
+                    audioFileReader = new AudioFileReader(addedMusic[0].FullName);
+                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                    musicValue.Value = 0;
+                    musicListBox.SelectedIndex = 0;
+                }
+                i++;
             }
+
+
+
+
+
+           // var currentSong = addedMusic.FindIndex(x => x.Name == selectedSongName);
+           //
+           // if (currentSong != -1)
+           // {
+           //     audioFileReader = new AudioFileReader(addedMusic[currentSong+1].FullName);
+           //     musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+           // }
+
+            playSimpleSound();
         }
     }
 }

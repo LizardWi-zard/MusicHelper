@@ -1,6 +1,6 @@
 ﻿namespace MusicHelper
 {
-    partial class Form1
+    partial class form1
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -33,6 +33,8 @@
             this.loudTrackBar = new System.Windows.Forms.TrackBar();
             this.musicValue = new System.Windows.Forms.TrackBar();
             this.musicListBox = new System.Windows.Forms.ListBox();
+            this.previousTrack = new System.Windows.Forms.Button();
+            this.nextTrack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +51,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(365, 425);
+            this.startButton.Location = new System.Drawing.Point(365, 424);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(28, 25);
             this.startButton.TabIndex = 2;
@@ -84,17 +86,39 @@
             this.musicListBox.TabIndex = 7;
             this.musicListBox.SelectedIndexChanged += new System.EventHandler(this.musicListBox_SelectedIndexChanged);
             // 
-            // Form1
+            // previousTrack
+            // 
+            this.previousTrack.Location = new System.Drawing.Point(331, 424);
+            this.previousTrack.Name = "previousTrack";
+            this.previousTrack.Size = new System.Drawing.Size(28, 25);
+            this.previousTrack.TabIndex = 9;
+            this.previousTrack.Text = "|◄";
+            this.previousTrack.UseVisualStyleBackColor = true;
+            this.previousTrack.Click += new System.EventHandler(this.previousTrack_Click);
+            // 
+            // nextTrack
+            // 
+            this.nextTrack.Location = new System.Drawing.Point(399, 424);
+            this.nextTrack.Name = "nextTrack";
+            this.nextTrack.Size = new System.Drawing.Size(28, 25);
+            this.nextTrack.TabIndex = 10;
+            this.nextTrack.Text = "►|";
+            this.nextTrack.UseVisualStyleBackColor = true;
+            this.nextTrack.Click += new System.EventHandler(this.nextTrack_Click);
+            // 
+            // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 461);
+            this.Controls.Add(this.nextTrack);
+            this.Controls.Add(this.previousTrack);
             this.Controls.Add(this.musicListBox);
             this.Controls.Add(this.musicValue);
             this.Controls.Add(this.loudTrackBar);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.openButton);
-            this.Name = "Form1";
+            this.Name = "form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).EndInit();
@@ -110,6 +134,8 @@
         private System.Windows.Forms.TrackBar loudTrackBar;
         private System.Windows.Forms.TrackBar musicValue;
         private System.Windows.Forms.ListBox musicListBox;
+        private System.Windows.Forms.Button previousTrack;
+        private System.Windows.Forms.Button nextTrack;
     }
 }
 
