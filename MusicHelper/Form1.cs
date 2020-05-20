@@ -91,6 +91,7 @@ namespace MusicHelper
             stopSimpleSound();
             audioFileReader.Position = 0;
             audioFileReader.Skip(musicValue.Value);
+            currentMomentLable.Text = musicValue.Value.ToString();
             playSimpleSound();
         }
 
@@ -107,6 +108,8 @@ namespace MusicHelper
                 audioFileReader = new AudioFileReader(songFileInfo.FullName);
                 musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
             }
+
+            maxLengthLabel.Text = musicValue.Maximum.ToString();
         }
 
         private void ChangeMusicValuseOutput()
@@ -119,88 +122,88 @@ namespace MusicHelper
 
         private void UpdateListeningProgress(Object sender, EventArgs args)
         {
-            if(musicValue.Value < musicValue.Maximum)
-            musicValue.Value++;
-            else
+            if (musicValue.Value < musicValue.Maximum)
+            {
+                musicValue.Value++;
+                currentMomentLable.Text = musicValue.Value.ToString();
+            }
+            else if (infinitiMusic.Checked)
             {
                 musicValue.Value = 0;
+                playSimpleSound();
+            }
+            else
+            {
                 stopSimpleSound();
+
+                findTrack(true);
+
+                playSimpleSound();
             }
         }
 
+        private void nextTrack_Click(object sender, EventArgs e)
+        {
+            stopSimpleSound();
+
+            findTrack(true);
+            
+            playSimpleSound();
+        }
 
         private void previousTrack_Click(object sender, EventArgs e)
         {
             stopSimpleSound();
 
-            int i = addedMusic.Count - 1;
-            foreach (var currentSong in addedMusic)
-            {
-                if (i > 0)
-                {
-                    if (selectedSongName == currentSong.Name)
-                    {
-                        audioFileReader = new AudioFileReader(addedMusic[i - 1].FullName);
-                        musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                        musicValue.Value = 0;
-                        musicListBox.SelectedIndex = musicListBox.SelectedIndex - 1;
-
-                        break;
-                    }
-                }
-                else
-                {
-                    audioFileReader = new AudioFileReader(addedMusic[addedMusic.Count - 1].FullName);
-                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                    musicValue.Value = 0;
-                    musicListBox.SelectedIndex = addedMusic.Count - 1;
-                }
-                i--;
-            }
+            findTrack(false);
+            
+            playSimpleSound();
         }
 
-        private void nextTrack_Click(object sender, EventArgs e) 
+        private void findTrack(bool nextTrack)
         {
-            stopSimpleSound();
-
-            int i = 0;
-            foreach(var currentSong in addedMusic)
+            if (nextTrack)
             {
-                if (i < addedMusic.Count - 1)
-                {
-                    if (selectedSongName == currentSong.Name)
-                    {
-                        audioFileReader = new AudioFileReader(addedMusic[i + 1].FullName);
-                        musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                        musicValue.Value = 0;
-                        musicListBox.SelectedIndex = musicListBox.SelectedIndex + 1;
+                int firstSongIndex = 0;
 
-                        break;
-                    }
-                }
-                else
-                {
-                    audioFileReader = new AudioFileReader(addedMusic[0].FullName);
-                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                    musicValue.Value = 0;
-                    musicListBox.SelectedIndex = 0;
-                }
-                i++;
+                int nextSongIndex = musicListBox.SelectedIndex + 1;
+
+                if (nextSongIndex > addedMusic.Count - 1)
+                    nextSongIndex = firstSongIndex;
+
+                ChangeMusic(nextSongIndex);
+            } 
+            else
+            {
+                int lastSongIndex = addedMusic.Count - 1;
+
+                int nextSongIndex = musicListBox.SelectedIndex - 1;
+
+                if (nextSongIndex < 0)
+                    nextSongIndex = lastSongIndex;
+
+                ChangeMusic(nextSongIndex);
             }
+            currentMomentLable.Text = musicValue.Value.ToString();
+            maxLengthLabel.Text = musicValue.Maximum.ToString();
+        }
 
+        private void ChangeMusic(int nextSongIndex)
+        {
+            audioFileReader = new AudioFileReader(addedMusic[nextSongIndex].FullName);
+            musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+            musicValue.Value = 0;
+            musicListBox.SelectedIndex = nextSongIndex;
+        }
 
+        private void infinitiMusic_CheckedChanged(object sender, EventArgs e)
+        {
 
+        }
 
-
-           // var currentSong = addedMusic.FindIndex(x => x.Name == selectedSongName);
-           //
-           // if (currentSong != -1)
-           // {
-           //     audioFileReader = new AudioFileReader(addedMusic[currentSong+1].FullName);
-           //     musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-           // }
-
-            playSimpleSound();
+        private void maxLengthLabel_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
