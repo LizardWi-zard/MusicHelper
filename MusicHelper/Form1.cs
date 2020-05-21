@@ -205,5 +205,42 @@ namespace MusicHelper
         {
             
         }
+
+        private void randomTrack_CheckedChanged(object sender, EventArgs e)
+        {
+            if (randomTrack.Checked)
+            {
+                musicListBox.Items.Clear();
+
+                List<FileInfo> randomTrack = new List<FileInfo>();
+                List<FileInfo> backUpList = new List<FileInfo>();
+
+                foreach (var item in addedMusic)
+                {
+                    backUpList.Add(item);
+                }
+
+                for (int i = 0; i < addedMusic.Count; i++)
+                {
+                    int b = new Random().Next(0, backUpList.Count);
+                    randomTrack.Add(backUpList[b]);
+                    backUpList.RemoveAt(b);
+                }
+
+                foreach (var item in randomTrack)
+                {
+                    musicListBox.Items.Add(item.Name);
+                }
+            } 
+            else
+            {
+                musicListBox.Items.Clear();
+
+                foreach (var item in addedMusic)
+                {
+                    musicListBox.Items.Add(item.Name);
+                }
+            }
+        }
     }
 }

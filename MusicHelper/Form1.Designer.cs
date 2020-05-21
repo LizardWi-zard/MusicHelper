@@ -39,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.maxLengthLabel = new System.Windows.Forms.Label();
             this.currentMomentLable = new System.Windows.Forms.Label();
+            this.randomTrack = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).BeginInit();
             this.SuspendLayout();
@@ -117,7 +118,7 @@
             this.infinitiMusic.Name = "infinitiMusic";
             this.infinitiMusic.Size = new System.Drawing.Size(32, 17);
             this.infinitiMusic.TabIndex = 11;
-            this.infinitiMusic.Text = "∞";
+            this.infinitiMusic.Text = "∞\r\n";
             this.infinitiMusic.UseVisualStyleBackColor = true;
             this.infinitiMusic.CheckedChanged += new System.EventHandler(this.infinitiMusic_CheckedChanged);
             // 
@@ -149,11 +150,23 @@
             this.currentMomentLable.TabIndex = 14;
             this.currentMomentLable.Text = "00:00";
             // 
+            // randomTrack
+            // 
+            this.randomTrack.AutoSize = true;
+            this.randomTrack.Location = new System.Drawing.Point(472, 429);
+            this.randomTrack.Name = "randomTrack";
+            this.randomTrack.Size = new System.Drawing.Size(85, 17);
+            this.randomTrack.TabIndex = 15;
+            this.randomTrack.Text = "mixed tracks";
+            this.randomTrack.UseVisualStyleBackColor = true;
+            this.randomTrack.CheckedChanged += new System.EventHandler(this.randomTrack_CheckedChanged);
+            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 461);
+            this.Controls.Add(this.randomTrack);
             this.Controls.Add(this.currentMomentLable);
             this.Controls.Add(this.maxLengthLabel);
             this.Controls.Add(this.label1);
@@ -187,6 +200,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label maxLengthLabel;
         private System.Windows.Forms.Label currentMomentLable;
+        private System.Windows.Forms.CheckBox randomTrack;
     }
 }
 
