@@ -129,7 +129,13 @@ namespace MusicHelper
             }
             else if (infinitiMusic.Checked)
             {
-                musicValue.Value = 0;
+                SetSameTrack();
+                playSimpleSound();
+            } 
+            else if (leftTrackCount.Value>0)
+            {
+                SetSameTrack();
+                leftTrackCount.Value--;
                 playSimpleSound();
             }
             else
@@ -188,7 +194,17 @@ namespace MusicHelper
                 ChangeMusic(nextSongIndex);
             }
 
+            leftTrackCount.Value = 0;
             LabelOptoins();
+        }
+
+        private void SetSameTrack()
+        {
+            stopSimpleSound();
+            int SongIndex = musicListBox.SelectedIndex;
+            audioFileReader = new AudioFileReader(addedMusic[SongIndex].FullName);
+            musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+            musicValue.Value = 0;
         }
 
         private void ChangeMusic(int nextSongIndex)

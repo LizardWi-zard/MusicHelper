@@ -40,8 +40,10 @@
             this.currentMomentLable = new System.Windows.Forms.Label();
             this.randomTrack = new System.Windows.Forms.CheckBox();
             this.maxLengthLabel = new System.Windows.Forms.Label();
+            this.leftTrackCount = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.leftTrackCount)).BeginInit();
             this.SuspendLayout();
             // 
             // openButton
@@ -160,11 +162,24 @@
             this.maxLengthLabel.TabIndex = 16;
             this.maxLengthLabel.Text = "00:00";
             // 
+            // leftTrackCount
+            // 
+            this.leftTrackCount.Location = new System.Drawing.Point(283, 428);
+            this.leftTrackCount.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.leftTrackCount.Name = "leftTrackCount";
+            this.leftTrackCount.Size = new System.Drawing.Size(42, 20);
+            this.leftTrackCount.TabIndex = 18;
+            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 461);
+            this.Controls.Add(this.leftTrackCount);
             this.Controls.Add(this.maxLengthLabel);
             this.Controls.Add(this.randomTrack);
             this.Controls.Add(this.currentMomentLable);
@@ -177,10 +192,13 @@
             this.Controls.Add(this.loudTrackBar);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.openButton);
+            this.MaximumSize = new System.Drawing.Size(750, 500);
+            this.MinimumSize = new System.Drawing.Size(750, 500);
             this.Name = "form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.leftTrackCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,6 +218,7 @@
         private System.Windows.Forms.Label currentMomentLable;
         private System.Windows.Forms.CheckBox randomTrack;
         private System.Windows.Forms.Label maxLengthLabel;
+        private System.Windows.Forms.NumericUpDown leftTrackCount;
     }
 }
 
