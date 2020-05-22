@@ -17,6 +17,8 @@ namespace MusicHelper
         bool isPlaing = false;
         FileInfo openedFile;
         string selectedSongName;
+        DateTime songLength = new DateTime();
+        DateTime currentMoment = new DateTime();
 
         public form1()
         {
@@ -52,8 +54,6 @@ namespace MusicHelper
         }
         private void playSimpleSound()
         {
-            //musicValue.Value = Convert.ToInt32(audioFileReader.Position);
-            
             ChangeMusicValuseOutput();
             waveOutDevice.Init(audioFileReader);
             isPlaing = true;
@@ -91,7 +91,7 @@ namespace MusicHelper
             stopSimpleSound();
             audioFileReader.Position = 0;
             audioFileReader.Skip(musicValue.Value);
-            currentMomentLable.Text = musicValue.Value.ToString();
+            LabelOptoins();
             playSimpleSound();
         }
 
@@ -109,7 +109,7 @@ namespace MusicHelper
                 musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
             }
 
-            maxLengthLabel.Text = musicValue.Maximum.ToString();
+            LabelOptoins();
         }
 
         private void ChangeMusicValuseOutput()
@@ -125,7 +125,7 @@ namespace MusicHelper
             if (musicValue.Value < musicValue.Maximum)
             {
                 musicValue.Value++;
-                currentMomentLable.Text = musicValue.Value.ToString();
+                LabelOptoins();
             }
             else if (infinitiMusic.Checked)
             {
@@ -137,6 +137,7 @@ namespace MusicHelper
                 stopSimpleSound();
 
                 findTrack(true);
+                LabelOptoins();
 
                 playSimpleSound();
             }
@@ -147,7 +148,8 @@ namespace MusicHelper
             stopSimpleSound();
 
             findTrack(true);
-            
+            LabelOptoins();
+
             playSimpleSound();
         }
 
@@ -156,7 +158,8 @@ namespace MusicHelper
             stopSimpleSound();
 
             findTrack(false);
-            
+            LabelOptoins();
+
             playSimpleSound();
         }
 
@@ -184,8 +187,8 @@ namespace MusicHelper
 
                 ChangeMusic(nextSongIndex);
             }
-            currentMomentLable.Text = musicValue.Value.ToString();
-            maxLengthLabel.Text = musicValue.Maximum.ToString();
+
+            LabelOptoins();
         }
 
         private void ChangeMusic(int nextSongIndex)
@@ -241,6 +244,14 @@ namespace MusicHelper
                     musicListBox.Items.Add(item.Name);
                 }
             }
+        }
+        private void LabelOptoins()
+        {
+            currentMoment = new DateTime(2020, 5, 22, musicValue.Value / 6000, musicValue.Value / 60, musicValue.Value % 60);
+            currentMomentLable.Text = currentMoment.ToString("mm:ss");
+
+            songLength = new DateTime(2020, 5, 22, musicValue.Maximum / 6000, musicValue.Maximum / 60, musicValue.Maximum % 60);
+            maxLengthLabel.Text = songLength.ToString("mm:ss");
         }
     }
 }
