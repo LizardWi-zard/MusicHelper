@@ -87,9 +87,9 @@
             // musicListBox
             // 
             this.musicListBox.FormattingEnabled = true;
-            this.musicListBox.Location = new System.Drawing.Point(589, 12);
+            this.musicListBox.Location = new System.Drawing.Point(605, 12);
             this.musicListBox.Name = "musicListBox";
-            this.musicListBox.Size = new System.Drawing.Size(133, 316);
+            this.musicListBox.Size = new System.Drawing.Size(117, 329);
             this.musicListBox.TabIndex = 7;
             this.musicListBox.SelectedIndexChanged += new System.EventHandler(this.musicListBox_SelectedIndexChanged);
             // 
@@ -122,7 +122,6 @@
             this.infinitiMusic.TabIndex = 11;
             this.infinitiMusic.Text = "∞\r\n";
             this.infinitiMusic.UseVisualStyleBackColor = true;
-            this.infinitiMusic.CheckedChanged += new System.EventHandler(this.infinitiMusic_CheckedChanged);
             // 
             // label1
             // 
