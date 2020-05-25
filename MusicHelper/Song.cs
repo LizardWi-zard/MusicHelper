@@ -10,19 +10,17 @@ namespace MusicHelper
 {
     class Song
     {
-        int songLenght;
-        string songPath;
-        string songName;
+        FileInfo songFileInfo;
+        
+        public int Lenght => (int)songFileInfo.Length;
 
-        public void GetSongStats(FileInfo newSong)
+        public string Path => songFileInfo.FullName;
+
+        public string Name => songFileInfo.Name;
+
+        public Song(string songPath) 
         {
-            AudioFileReader audioFileReader = new AudioFileReader(newSong.FullName);
-
-            //songLenght = (int)audioFileReader.TotalTime.TotalSeconds;
-
-            songLenght = (int)newSong.Length;
-            songPath = newSong.FullName;
-            songName = newSong.Name;
-        }
+            songFileInfo = new FileInfo(songPath);        
+        }          
     }
 }

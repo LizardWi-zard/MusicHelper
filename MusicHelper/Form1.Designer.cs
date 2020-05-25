@@ -1,6 +1,6 @@
 ﻿namespace MusicHelper
 {
-    partial class AudioPlayer
+    partial class MusicHelper
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -173,7 +173,7 @@
             this.leftTrackCount.Size = new System.Drawing.Size(42, 20);
             this.leftTrackCount.TabIndex = 18;
             // 
-            // AudioPlayer
+            // MusicHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -193,8 +193,8 @@
             this.Controls.Add(this.openButton);
             this.MaximumSize = new System.Drawing.Size(750, 500);
             this.MinimumSize = new System.Drawing.Size(750, 500);
-            this.Name = "AudioPlayer";
-            this.Text = "Form1";
+            this.Name = "MusicHelper";
+            this.Text = "MusicHelper";
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftTrackCount)).EndInit();

@@ -8,10 +8,8 @@ using System.Windows.Forms;
 
 namespace MusicHelper
 {
-    public partial class AudioPlayer : Form
+    public partial class MusicHelper : Form
     {
-        Song song = new Song();
-
         Timer timer;
         IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader;
@@ -24,7 +22,7 @@ namespace MusicHelper
         List<FileInfo> backUpList = new List<FileInfo>();
         List<FileInfo> randomTrackList = new List<FileInfo>();
 
-        public AudioPlayer()
+        public MusicHelper()
         {
             InitializeComponent();
         }
@@ -42,9 +40,9 @@ namespace MusicHelper
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Song song = new Song(openFileDialog.FileName);
                     openedFile = new FileInfo(openFileDialog.FileName);
 
-                    song.GetSongStats(openedFile);
 
                     addedMusic.Add(openedFile);
                     audioFileReader = new AudioFileReader(openedFile.FullName);

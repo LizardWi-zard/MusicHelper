@@ -16,7 +16,7 @@ namespace MusicHelper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AudioPlayer());
+            Application.Run(new MusicHelper());
         }
     }
 }
