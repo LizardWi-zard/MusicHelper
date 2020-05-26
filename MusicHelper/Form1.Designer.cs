@@ -87,9 +87,9 @@
             // musicListBox
             // 
             this.musicListBox.FormattingEnabled = true;
-            this.musicListBox.Location = new System.Drawing.Point(605, 12);
+            this.musicListBox.Location = new System.Drawing.Point(609, 12);
             this.musicListBox.Name = "musicListBox";
-            this.musicListBox.Size = new System.Drawing.Size(117, 329);
+            this.musicListBox.Size = new System.Drawing.Size(113, 329);
             this.musicListBox.TabIndex = 7;
             this.musicListBox.SelectedIndexChanged += new System.EventHandler(this.musicListBox_SelectedIndexChanged);
             // 

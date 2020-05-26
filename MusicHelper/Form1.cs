@@ -21,7 +21,6 @@ namespace MusicHelper
         DateTime currentMoment = new DateTime();
         List<FileInfo> backUpList = new List<FileInfo>();
         List<FileInfo> randomTrackList = new List<FileInfo>();
-
         public MusicHelper()
         {
             InitializeComponent();
@@ -43,12 +42,11 @@ namespace MusicHelper
                     Song song = new Song(openFileDialog.FileName);
                     openedFile = new FileInfo(openFileDialog.FileName);
 
-
                     addedMusic.Add(openedFile);
                     audioFileReader = new AudioFileReader(openedFile.FullName);
                     musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
                     musicListBox.Items.Add(openedFile.Name);
-                    
+                    musicListBox.SelectedIndex = addedMusic.Count() - 1;
                 }
             }
             musicValue.Value = 0;
@@ -223,11 +221,12 @@ namespace MusicHelper
 
         private void randomTrack_CheckedChanged(object sender, EventArgs e)
         {
-            if (randomTrack.Checked)
-            {
                 musicListBox.Items.Clear();
 
+            if (randomTrack.Checked)
+            {
                 backUpList.AddRange(addedMusic);
+
 
                 CreateRandomTracksList();
 
@@ -235,6 +234,7 @@ namespace MusicHelper
             } 
             else
             {
+              
                 SetTracksList(addedMusic);
             }
         }
@@ -242,6 +242,7 @@ namespace MusicHelper
         private void CreateRandomTracksList()
         {
             for (int i = 0; i < addedMusic.Count; i++)
+                randomTrackList.Clear();
             {
                 int index = new Random().Next(0, backUpList.Count);
                 randomTrackList.Add(backUpList[index]);
@@ -250,9 +251,7 @@ namespace MusicHelper
         }
  
         private void SetTracksList(List<FileInfo> musicList)
-        {
-            musicListBox.Items.Clear();
-
+        {  
             foreach (var item in musicList)
             {
                 musicListBox.Items.Add(item.Name);

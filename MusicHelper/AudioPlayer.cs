@@ -12,11 +12,7 @@ namespace MusicHelper
     {
         public List<FileInfo> AddedMusic { get; }
 
-        public List<FileInfo> BackUpList { set; get; }
-
-        public List<FileInfo> RandomTrackList { set; get; }
-
-        public bool IsPlaying { set; get; }
+        //public bool IsPlaying { set; get; }
 
         public bool IsRandom { set; get; }
 
@@ -24,35 +20,36 @@ namespace MusicHelper
 
         public int SongsLeft { set; get; }
 
-        public AudioPlayer(List<FileInfo> music)
+        public AudioPlayer()
         {
              
-        }
-        
-        public void FindNextSong()
-        {
-
-        }
+        }        
 
         public void AddTrack(FileInfo song)
         {
-            //AddedMusic.Add(song);
+            AddedMusic.Add(song);
         }
 
-        public void PlaySong(bool isPlaying)
+        public void Play()
         {
 
         }
 
-        public void StopSong(bool isPlaying)
+        public void Pause()
         {
 
         }
 
-        public void CreateRandomList()
+        public void PastTrack()
         {
-            
+
         }
+
+        public void NextTrack()
+        {
+
+        }
+
 
 
     }
