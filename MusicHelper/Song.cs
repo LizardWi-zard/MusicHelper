@@ -22,5 +22,6 @@ namespace MusicHelper
         {
             songFileInfo = new FileInfo(songPath);        
         }          
+        
     }
 }

@@ -10,9 +10,9 @@ namespace MusicHelper
 {
     class AudioPlayer
     {
-        public List<FileInfo> AddedMusic { get; }
+        public List<Song> AddedMusic { set; get; }
 
-        //public bool IsPlaying { set; get; }
+        public bool IsPlaying { set; get; }
 
         public bool IsRandom { set; get; }
 
@@ -20,24 +20,40 @@ namespace MusicHelper
 
         public int SongsLeft { set; get; }
 
+        public IWavePlayer WaveOutDevice { set; get; }
+
+        public AudioFileReader AudioFileReader { set; get; }
+
+            
+
+
         public AudioPlayer()
         {
-             
+            // MusicHelper interFace = new MusicHelper();
+
+            AddedMusic = new List<Song>();
+            IsPlaying = false;
+            WaveOutDevice = new WaveOut();
         }        
 
-        public void AddTrack(FileInfo song)
+        public void AddTrack(Song song)
         {
             AddedMusic.Add(song);
         }
 
         public void Play()
         {
-
+            WaveOutDevice.Init(AudioFileReader);
+            IsPlaying = true;
+            WaveOutDevice.Play();
+            
         }
 
         public void Pause()
         {
-
+            WaveOutDevice.Init(AudioFileReader);
+            IsPlaying = false;
+            WaveOutDevice.Stop();
         }
 
         public void PastTrack()

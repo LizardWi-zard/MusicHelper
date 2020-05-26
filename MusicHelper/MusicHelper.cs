@@ -13,14 +13,21 @@ namespace MusicHelper
         Timer timer;
         IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader;
-        List<FileInfo> addedMusic = new List<FileInfo>();
-        bool isPlaing = false;
+        
         FileInfo openedFile;
+        
+        bool isPlaying = false;
         string selectedSongName;
+
         DateTime songLength = new DateTime();
         DateTime currentMoment = new DateTime();
+        
+        List<FileInfo> addedMusic = new List<FileInfo>();
         List<FileInfo> backUpList = new List<FileInfo>();
         List<FileInfo> randomTrackList = new List<FileInfo>();
+
+        AudioPlayer audioPlayer = new AudioPlayer();
+        
         public MusicHelper()
         {
             InitializeComponent();
@@ -40,13 +47,18 @@ namespace MusicHelper
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     Song song = new Song(openFileDialog.FileName);
-                    openedFile = new FileInfo(openFileDialog.FileName);
 
-                    addedMusic.Add(openedFile);
-                    audioFileReader = new AudioFileReader(openedFile.FullName);
-                    musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                    musicListBox.Items.Add(openedFile.Name);
-                    musicListBox.SelectedIndex = addedMusic.Count() - 1;
+                    audioPlayer.AddTrack(song);
+                    musicListBox.Items.Add(song.Name);
+                    audioPlayer.AudioFileReader = new AudioFileReader(song.Path);
+                    musicValue.Maximum = (int)audioPlayer.AudioFileReader.TotalTime.TotalSeconds;
+                    musicListBox.SelectedIndex = audioPlayer.AddedMusic.Count() - 1;
+
+                    // audioFileReader = new AudioFileReader();
+                    //openedFile = new FileInfo(openFileDialog.FileName);
+                    //audioFileReader = new AudioFileReader(openedFile.FullName);
+                    //musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                    //musicListBox.Items.Add(openedFile.Name);
                 }
             }
             musicValue.Value = 0;
@@ -54,31 +66,37 @@ namespace MusicHelper
         
         private void PlaySimpleSound()
         {
-            ChangeMusicValuseOutput();
-            waveOutDevice.Init(audioFileReader);
-            isPlaing = true;
-            startButton.Text = "┃┃";
-            waveOutDevice.Play();
+           // ChangeMusicValuseOutput();
+           // audioPlayer.WaveOutDevice.Init(audioFileReader);
+           // isPlaying = true;
+           // startButton.Text = "┃┃";
+           // waveOutDevice.Play();
         }
     
         private void StopSimpleSound()
         {
-            startButton.Text = "▶";
-            if (isPlaing)
-                timer.Stop();
-            isPlaing = false;
-            waveOutDevice.Stop();
+            //startButton.Text = "▶";
+            //if (isPlaying)
+            //    timer.Stop();
+            //isPlaying = false;
+            //waveOutDevice.Stop();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (!isPlaing && audioFileReader != null)
+            if (audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)
             {
-                PlaySimpleSound();
+                audioPlayer.Pause();
+                startButton.Text = "▶";
+
+                //PlaySimpleSound();
             }
             else
             {
-                StopSimpleSound();
+                audioPlayer.Play();
+                startButton.Text = "┃┃";
+                
+                //StopSimpleSound();
             }
         }
 
