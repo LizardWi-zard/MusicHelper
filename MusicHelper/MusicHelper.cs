@@ -35,8 +35,8 @@ namespace MusicHelper
 
         private void openButton_Click(object sender, EventArgs e)
         {
-            
-            StopSimpleSound();
+
+            //audioPlayer.Pause();
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -84,48 +84,52 @@ namespace MusicHelper
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)
+            if (!audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)
             {
-                audioPlayer.Pause();
-                startButton.Text = "▶";
+                ChangeMusicValuseOutput();
+                audioPlayer.Play();
+                startButton.Text = "┃┃";
 
                 //PlaySimpleSound();
             }
             else
             {
-                audioPlayer.Play();
-                startButton.Text = "┃┃";
-                
+                if(audioPlayer.IsPlaying)
+                  timer.Stop();
+                audioPlayer.Pause();
+                startButton.Text = "▶";
+
+
                 //StopSimpleSound();
             }
         }
 
         private void loudTrackBar_Scroll(object sender, EventArgs e)
         {
-            audioFileReader.Volume = loudTrackBar.Value;
+            audioPlayer.AudioFileReader.Volume = loudTrackBar.Value;
         }
 
         private void musicValue_Scroll(object sender, EventArgs e)
         {
-            StopSimpleSound();
-            audioFileReader.Position = 0;
-            audioFileReader.Skip(musicValue.Value);
+            audioPlayer.Pause();
+            audioPlayer.AudioFileReader.Position = 0;
+            audioPlayer.AudioFileReader.Skip(musicValue.Value);
             UpdateListeningTime();
-            PlaySimpleSound();
+            audioPlayer.Play();
         }
 
         private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            StopSimpleSound();
+            audioPlayer.Pause();
             musicValue.Value = 0;
             selectedSongName = musicListBox.SelectedItem.ToString();
 
-            var songFileInfo = addedMusic.Where(x => x.Name == selectedSongName).FirstOrDefault();
+            var songFileInfo = audioPlayer.AddedMusic.Where(x => x.Name == selectedSongName).FirstOrDefault();
 
             if (songFileInfo != null)
             {
-                audioFileReader = new AudioFileReader(songFileInfo.FullName);
-                musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+             //   audioPlayer.AudioFileReader = new AudioFileReader(songFileInfo.Name);
+             //   musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
             }
 
             UpdateListeningTime();
@@ -149,42 +153,47 @@ namespace MusicHelper
             else if (infinitiMusic.Checked)
             {
                 SetSameTrack();
-                PlaySimpleSound();
+                audioPlayer.Play();
             } 
             else if (leftTrackCount.Value>0)
             {
                 SetSameTrack();
                 leftTrackCount.Value--;
-                PlaySimpleSound();
+                audioPlayer.Play();
             }
             else
             {
-                FindTrack(true);
+                audioPlayer.FindTrack(true);
             }
         }
 
         private void SetSameTrack()
         {
-            StopSimpleSound();
+            audioPlayer.Pause();
             int SongIndex = musicListBox.SelectedIndex;
-            audioFileReader = new AudioFileReader(addedMusic[SongIndex].FullName);
+            //audioFileReader = new AudioFileReader(addedMusic[SongIndex].FullName);
             musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
             musicValue.Value = 0;
         }
        
         private void nextTrack_Click(object sender, EventArgs e)
         {
-            FindTrack(true);
+            audioPlayer.Pause();
+            audioPlayer.NextTrack();
+           
         }
 
         private void previousTrack_Click(object sender, EventArgs e)
         {
-            FindTrack(false);
+            audioPlayer.Pause();
+            audioPlayer.PastTrack();
+           
         }
 
+        /*
         private void FindTrack(bool nextTrack)
         {
-            StopSimpleSound();
+            audioPlayer.Pause();
 
             if (nextTrack)
             {
@@ -202,7 +211,7 @@ namespace MusicHelper
             leftTrackCount.Value = 0;
             UpdateListeningTime();
 
-            PlaySimpleSound();
+            audioPlayer.Play();
         }
 
         private void SetCurrenTrack(int nextSongIndex)
@@ -236,6 +245,7 @@ namespace MusicHelper
 
             return nextSongIndex;
         }
+        */
 
         private void randomTrack_CheckedChanged(object sender, EventArgs e)
         {

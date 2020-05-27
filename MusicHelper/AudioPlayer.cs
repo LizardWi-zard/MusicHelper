@@ -24,8 +24,7 @@ namespace MusicHelper
 
         public AudioFileReader AudioFileReader { set; get; }
 
-            
-
+        int index;
 
         public AudioPlayer()
         {
@@ -34,11 +33,13 @@ namespace MusicHelper
             AddedMusic = new List<Song>();
             IsPlaying = false;
             WaveOutDevice = new WaveOut();
+            
         }        
 
         public void AddTrack(Song song)
         {
             AddedMusic.Add(song);
+            index = AddedMusic.Count() - 1;
         }
 
         public void Play()
@@ -51,19 +52,58 @@ namespace MusicHelper
 
         public void Pause()
         {
-            WaveOutDevice.Init(AudioFileReader);
+            WaveOutDevice.Stop();           
             IsPlaying = false;
-            WaveOutDevice.Stop();
-        }
-
-        public void PastTrack()
-        {
-
         }
 
         public void NextTrack()
         {
+          
+            FindTrack(true);
+         
+        }
+        
+        public void PastTrack()
+        {
+          
+            FindTrack(false);
+           
+        }
 
+        public void FindTrack(bool nextTrack)
+        {
+            
+
+            if (nextTrack)
+            {
+                if (index + 1 > AddedMusic.Count() - 1)
+                {
+                    index = 0;
+                }
+                else
+                    index++;
+
+                SetCurrenTrack();
+            }
+            else
+            {
+                if (index - 1 < 0)
+                {
+                    index = AddedMusic.Count() - 1;
+                }
+                else
+                    index--;
+
+                SetCurrenTrack();
+            }
+            Play();
+        }
+
+        private void SetCurrenTrack()
+        {
+            AudioFileReader = new AudioFileReader(AddedMusic[index].Path);
+            //WaveOutDevice.Init(AudioFileReader);
+            
         }
 
 
