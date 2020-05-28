@@ -41,6 +41,7 @@
             this.randomTrack = new System.Windows.Forms.CheckBox();
             this.maxLengthLabel = new System.Windows.Forms.Label();
             this.leftTrackCount = new System.Windows.Forms.NumericUpDown();
+            this.ChangeInterface = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftTrackCount)).BeginInit();
@@ -48,9 +49,9 @@
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(647, 404);
+            this.openButton.Location = new System.Drawing.Point(125, 311);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(75, 45);
+            this.openButton.Size = new System.Drawing.Size(97, 23);
             this.openButton.TabIndex = 0;
             this.openButton.Text = "Open File";
             this.openButton.UseVisualStyleBackColor = true;
@@ -58,9 +59,9 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(365, 424);
+            this.startButton.Location = new System.Drawing.Point(83, 12);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(28, 25);
+            this.startButton.Size = new System.Drawing.Size(68, 25);
             this.startButton.TabIndex = 2;
             this.startButton.Text = "▶";
             this.startButton.UseVisualStyleBackColor = true;
@@ -68,9 +69,9 @@
             // 
             // loudTrackBar
             // 
-            this.loudTrackBar.Location = new System.Drawing.Point(12, 404);
+            this.loudTrackBar.Location = new System.Drawing.Point(12, 133);
             this.loudTrackBar.Name = "loudTrackBar";
-            this.loudTrackBar.Size = new System.Drawing.Size(204, 45);
+            this.loudTrackBar.Size = new System.Drawing.Size(210, 45);
             this.loudTrackBar.TabIndex = 4;
             this.loudTrackBar.Value = 1;
             this.loudTrackBar.Scroll += new System.EventHandler(this.loudTrackBar_Scroll);
@@ -78,26 +79,26 @@
             // musicValue
             // 
             this.musicValue.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.musicValue.Location = new System.Drawing.Point(12, 353);
+            this.musicValue.Location = new System.Drawing.Point(12, 67);
             this.musicValue.Name = "musicValue";
-            this.musicValue.Size = new System.Drawing.Size(710, 45);
+            this.musicValue.Size = new System.Drawing.Size(210, 45);
             this.musicValue.TabIndex = 5;
             this.musicValue.Scroll += new System.EventHandler(this.musicValue_Scroll);
             // 
             // musicListBox
             // 
             this.musicListBox.FormattingEnabled = true;
-            this.musicListBox.Location = new System.Drawing.Point(609, 12);
+            this.musicListBox.Location = new System.Drawing.Point(12, 184);
             this.musicListBox.Name = "musicListBox";
-            this.musicListBox.Size = new System.Drawing.Size(113, 329);
+            this.musicListBox.Size = new System.Drawing.Size(210, 121);
             this.musicListBox.TabIndex = 7;
             this.musicListBox.SelectedIndexChanged += new System.EventHandler(this.musicListBox_SelectedIndexChanged);
             // 
             // previousTrack
             // 
-            this.previousTrack.Location = new System.Drawing.Point(331, 424);
+            this.previousTrack.Location = new System.Drawing.Point(12, 12);
             this.previousTrack.Name = "previousTrack";
-            this.previousTrack.Size = new System.Drawing.Size(28, 25);
+            this.previousTrack.Size = new System.Drawing.Size(65, 25);
             this.previousTrack.TabIndex = 9;
             this.previousTrack.Text = "|◄";
             this.previousTrack.UseVisualStyleBackColor = true;
@@ -105,9 +106,9 @@
             // 
             // nextTrack
             // 
-            this.nextTrack.Location = new System.Drawing.Point(399, 424);
+            this.nextTrack.Location = new System.Drawing.Point(157, 12);
             this.nextTrack.Name = "nextTrack";
-            this.nextTrack.Size = new System.Drawing.Size(28, 25);
+            this.nextTrack.Size = new System.Drawing.Size(65, 25);
             this.nextTrack.TabIndex = 10;
             this.nextTrack.Text = "►|";
             this.nextTrack.UseVisualStyleBackColor = true;
@@ -116,17 +117,17 @@
             // infinitiMusic
             // 
             this.infinitiMusic.AutoSize = true;
-            this.infinitiMusic.Location = new System.Drawing.Point(433, 429);
+            this.infinitiMusic.Location = new System.Drawing.Point(81, 44);
             this.infinitiMusic.Name = "infinitiMusic";
-            this.infinitiMusic.Size = new System.Drawing.Size(32, 17);
+            this.infinitiMusic.Size = new System.Drawing.Size(50, 17);
             this.infinitiMusic.TabIndex = 11;
-            this.infinitiMusic.Text = "∞\r\n";
+            this.infinitiMusic.Text = "∞      ";
             this.infinitiMusic.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 385);
+            this.label1.Location = new System.Drawing.Point(12, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 12;
@@ -135,7 +136,7 @@
             // currentMomentLable
             // 
             this.currentMomentLable.AutoSize = true;
-            this.currentMomentLable.Location = new System.Drawing.Point(362, 401);
+            this.currentMomentLable.Location = new System.Drawing.Point(97, 99);
             this.currentMomentLable.Name = "currentMomentLable";
             this.currentMomentLable.Size = new System.Drawing.Size(34, 13);
             this.currentMomentLable.TabIndex = 14;
@@ -144,7 +145,7 @@
             // randomTrack
             // 
             this.randomTrack.AutoSize = true;
-            this.randomTrack.Location = new System.Drawing.Point(472, 429);
+            this.randomTrack.Location = new System.Drawing.Point(137, 44);
             this.randomTrack.Name = "randomTrack";
             this.randomTrack.Size = new System.Drawing.Size(85, 17);
             this.randomTrack.TabIndex = 15;
@@ -155,7 +156,7 @@
             // maxLengthLabel
             // 
             this.maxLengthLabel.AutoSize = true;
-            this.maxLengthLabel.Location = new System.Drawing.Point(686, 385);
+            this.maxLengthLabel.Location = new System.Drawing.Point(188, 99);
             this.maxLengthLabel.Name = "maxLengthLabel";
             this.maxLengthLabel.Size = new System.Drawing.Size(34, 13);
             this.maxLengthLabel.TabIndex = 16;
@@ -163,21 +164,33 @@
             // 
             // leftTrackCount
             // 
-            this.leftTrackCount.Location = new System.Drawing.Point(283, 428);
+            this.leftTrackCount.Location = new System.Drawing.Point(12, 43);
             this.leftTrackCount.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.leftTrackCount.Name = "leftTrackCount";
-            this.leftTrackCount.Size = new System.Drawing.Size(42, 20);
+            this.leftTrackCount.Size = new System.Drawing.Size(65, 20);
             this.leftTrackCount.TabIndex = 18;
+            // 
+            // ChangeInterface
+            // 
+            this.ChangeInterface.Location = new System.Drawing.Point(12, 311);
+            this.ChangeInterface.Name = "ChangeInterface";
+            this.ChangeInterface.Size = new System.Drawing.Size(107, 23);
+            this.ChangeInterface.TabIndex = 19;
+            this.ChangeInterface.Text = "Change Interface";
+            this.ChangeInterface.UseVisualStyleBackColor = true;
+            this.ChangeInterface.Click += new System.EventHandler(this.ChangeInterface_Click);
             // 
             // MusicHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(234, 346);
+            this.Controls.Add(this.ChangeInterface);
             this.Controls.Add(this.leftTrackCount);
             this.Controls.Add(this.maxLengthLabel);
             this.Controls.Add(this.randomTrack);
@@ -192,7 +205,7 @@
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.openButton);
             this.MaximumSize = new System.Drawing.Size(750, 500);
-            this.MinimumSize = new System.Drawing.Size(750, 500);
+            this.MinimumSize = new System.Drawing.Size(250, 385);
             this.Name = "MusicHelper";
             this.Text = "MusicHelper";
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).EndInit();
@@ -218,6 +231,7 @@
         private System.Windows.Forms.CheckBox randomTrack;
         private System.Windows.Forms.Label maxLengthLabel;
         private System.Windows.Forms.NumericUpDown leftTrackCount;
+        private System.Windows.Forms.Button ChangeInterface;
     }
 }
 

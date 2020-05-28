@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -18,6 +19,8 @@ namespace MusicHelper
         DateTime currentMoment = new DateTime();
 
         AudioPlayer audioPlayer = new AudioPlayer();
+
+        bool smallInterface = true;
                
         public MusicHelper()
         {
@@ -194,6 +197,109 @@ namespace MusicHelper
 
             songLength = new DateTime(2020, 5, 22, musicValue.Maximum / 6000, musicValue.Maximum / 60, musicValue.Maximum % 60);
             maxLengthLabel.Text = songLength.ToString("mm:ss");
+        }
+
+        private void ChangeInterface_Click(object sender, EventArgs e)
+        {
+            if (!smallInterface)
+            {
+                smallInterface = true;
+
+                this.MinimumSize = new Size(250, 385);
+                this.MaximumSize = new Size(250, 385);
+                this.Size = new Size(250, 385);
+
+                openButton.Size = new Size(97, 23);
+                openButton.Location = new Point(125, 311);
+
+                musicListBox.Size = new Size(210, 121);
+                musicListBox.Location = new Point(12, 184);
+
+                musicValue.Size = new Size(210, 45);
+                musicValue.Location = new Point(12, 67);
+
+                startButton.Size = new Size(68, 25);
+                startButton.Location = new Point(83, 12);
+
+                previousTrack.Size = new Size(65, 25);
+                previousTrack.Location = new Point(12, 12);
+
+                nextTrack.Size = new Size(65, 25);
+                nextTrack.Location = new Point(157, 12);
+
+                leftTrackCount.Size = new Size(65, 20);
+                leftTrackCount.Location = new Point(12, 43);
+
+                infinitiMusic.Size = new Size(50, 17);
+                infinitiMusic.Location = new Point(81, 44);
+    
+                randomTrack.Size = new Size(85, 17);
+                randomTrack.Location = new Point(137, 44);
+
+                currentMomentLable.Size = new Size(34, 13);
+                currentMomentLable.Location = new Point(97, 99);
+
+                label1.Size = new Size(34, 13);
+                label1.Location = new Point(12, 99);
+
+                maxLengthLabel.Size = new Size(34, 13);
+                maxLengthLabel.Location = new Point(188, 99);
+                
+                loudTrackBar.Size = new Size(210, 45);
+                loudTrackBar.Location = new Point(12, 133);
+            }
+            else
+            {
+                smallInterface = false;
+
+                this.MinimumSize = new Size(750, 500);
+                this.MaximumSize = new Size(750, 500);
+                this.Size = new Size(750, 500);
+
+                openButton.Size = new Size(75, 45);
+                openButton.Location = new Point(647, 404);
+
+                musicListBox.Size = new Size(113, 329);
+                musicListBox.Location = new Point(609, 12);
+
+                musicValue.Size = new Size(710, 45);
+                musicValue.Location = new Point(12, 353);
+
+                startButton.Size = new Size(28, 25);
+                startButton.Location = new Point(365, 424);
+
+                previousTrack.Size = new Size(28, 25);
+                previousTrack.Location = new Point(331, 424);
+
+                nextTrack.Size = new Size(28, 25);
+                nextTrack.Location = new Point(399, 424);
+
+                leftTrackCount.Size = new Size(42, 20);
+                leftTrackCount.Location = new Point(283, 428);
+
+                infinitiMusic.Size = new Size(32, 17);
+                infinitiMusic.Location = new Point(433, 429);
+
+                randomTrack.Size = new Size(85, 17);
+                randomTrack.Location = new Point(472, 429);
+
+                currentMomentLable.Size = new Size(34, 13);
+                currentMomentLable.Location = new Point(362, 401);
+
+                label1.Size = new Size(34, 13);
+                label1.Location = new Point(12, 385);
+
+                maxLengthLabel.Size = new Size(34, 13);
+                maxLengthLabel.Location = new Point(686, 385);
+
+                loudTrackBar.Size = new Size(204, 45);
+                loudTrackBar.Location = new Point(12, 404);
+            }
+        }
+
+        private void maxLengthLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
