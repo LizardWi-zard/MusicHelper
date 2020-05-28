@@ -207,7 +207,6 @@
             this.MaximumSize = new System.Drawing.Size(750, 500);
             this.MinimumSize = new System.Drawing.Size(250, 385);
             this.Name = "MusicHelper";
-            this.Text = "MusicHelper";
             ((System.ComponentModel.ISupportInitialize)(this.loudTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicValue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftTrackCount)).EndInit();
