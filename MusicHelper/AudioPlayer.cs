@@ -24,7 +24,9 @@ namespace MusicHelper
 
         public AudioFileReader AudioFileReader { set; get; }
 
-        int index;
+        public int Index { set; get; }
+        
+        public List<Song> RandomTrackList { set; get; }
 
         public AudioPlayer()
         {
@@ -33,13 +35,13 @@ namespace MusicHelper
             AddedMusic = new List<Song>();
             IsPlaying = false;
             WaveOutDevice = new WaveOut();
-            
+            RandomTrackList = new List<Song>();
         }        
 
         public void AddTrack(Song song)
         {
             AddedMusic.Add(song);
-            index = AddedMusic.Count() - 1;
+            Index = AddedMusic.Count() - 1;
         }
 
         public void Play()
@@ -47,7 +49,6 @@ namespace MusicHelper
             WaveOutDevice.Init(AudioFileReader);
             IsPlaying = true;
             WaveOutDevice.Play();
-            
         }
 
         public void Pause()
@@ -58,55 +59,77 @@ namespace MusicHelper
 
         public void NextTrack()
         {
-          
             FindTrack(true);
-         
         }
         
         public void PastTrack()
         {
-          
             FindTrack(false);
-           
         }
 
         public void FindTrack(bool nextTrack)
         {
-            
-
             if (nextTrack)
             {
-                if (index + 1 > AddedMusic.Count() - 1)
+                if (Index + 1 > AddedMusic.Count() - 1)
                 {
-                    index = 0;
+                    Index = 0;
                 }
                 else
-                    index++;
+                    Index++;
 
                 SetCurrenTrack();
             }
             else
             {
-                if (index - 1 < 0)
+                if (Index - 1 < 0)
                 {
-                    index = AddedMusic.Count() - 1;
+                    Index = AddedMusic.Count() - 1;
                 }
                 else
-                    index--;
+                    Index--;
 
                 SetCurrenTrack();
             }
-            Play();
         }
 
         private void SetCurrenTrack()
         {
-            AudioFileReader = new AudioFileReader(AddedMusic[index].Path);
-            //WaveOutDevice.Init(AudioFileReader);
+            AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);
+            //WaveOutDevice.Init(AudioFileReader); 
             
         }
 
+        public void SetSameTrack(int index)
+        {
+            Pause();
+            Index = index;
+            AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);
+            Play();
+        }
 
+        public void ChangeScrollBarValue(int skipTime)
+        {
+            Pause();
+            AudioFileReader.Position = 0;
+            AudioFileReader.Skip(skipTime);            
+            Play();
+        }
+        
+        public void CreateRandomTracksList()
+        {
+            List<Song> backUpList = new List<Song>();
 
+            backUpList.AddRange(AddedMusic);
+
+            RandomTrackList.Clear();
+
+            for (int i = 0; i < AddedMusic.Count; i++)
+            {
+                int index = new Random().Next(0, backUpList.Count);
+                RandomTrackList.Add(backUpList[index]);
+                backUpList.RemoveAt(index);
+            }
+        }
     }
 }

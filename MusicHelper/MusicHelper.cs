@@ -11,23 +11,14 @@ namespace MusicHelper
     public partial class MusicHelper : Form
     {
         Timer timer;
-        IWavePlayer waveOutDevice = new WaveOut();
-        AudioFileReader audioFileReader;
-        
-        FileInfo openedFile;
-        
-        bool isPlaying = false;
+                
         string selectedSongName;
 
         DateTime songLength = new DateTime();
         DateTime currentMoment = new DateTime();
-        
-        List<FileInfo> addedMusic = new List<FileInfo>();
-        List<FileInfo> backUpList = new List<FileInfo>();
-        List<FileInfo> randomTrackList = new List<FileInfo>();
 
         AudioPlayer audioPlayer = new AudioPlayer();
-        
+               
         public MusicHelper()
         {
             InitializeComponent();
@@ -35,8 +26,7 @@ namespace MusicHelper
 
         private void openButton_Click(object sender, EventArgs e)
         {
-
-            //audioPlayer.Pause();
+            Stop();
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -53,54 +43,35 @@ namespace MusicHelper
                     audioPlayer.AudioFileReader = new AudioFileReader(song.Path);
                     musicValue.Maximum = (int)audioPlayer.AudioFileReader.TotalTime.TotalSeconds;
                     musicListBox.SelectedIndex = audioPlayer.AddedMusic.Count() - 1;
-
-                    // audioFileReader = new AudioFileReader();
-                    //openedFile = new FileInfo(openFileDialog.FileName);
-                    //audioFileReader = new AudioFileReader(openedFile.FullName);
-                    //musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-                    //musicListBox.Items.Add(openedFile.Name);
                 }
             }
             musicValue.Value = 0;
         }
         
-        private void PlaySimpleSound()
+        private void Play()
         {
-           // ChangeMusicValuseOutput();
-           // audioPlayer.WaveOutDevice.Init(audioFileReader);
-           // isPlaying = true;
-           // startButton.Text = "┃┃";
-           // waveOutDevice.Play();
+            ChangeMusicValuseOutput();
+            audioPlayer.Play();
+            startButton.Text = "┃┃";
         }
     
-        private void StopSimpleSound()
+        private void Stop()
         {
-            //startButton.Text = "▶";
-            //if (isPlaying)
-            //    timer.Stop();
-            //isPlaying = false;
-            //waveOutDevice.Stop();
+            if (audioPlayer.IsPlaying)
+                timer.Stop();
+            audioPlayer.Pause();
+            startButton.Text = "▶";
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
             if (!audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)
             {
-                ChangeMusicValuseOutput();
-                audioPlayer.Play();
-                startButton.Text = "┃┃";
-
-                //PlaySimpleSound();
+                Play();
             }
             else
             {
-                if(audioPlayer.IsPlaying)
-                  timer.Stop();
-                audioPlayer.Pause();
-                startButton.Text = "▶";
-
-
-                //StopSimpleSound();
+                Stop();
             }
         }
 
@@ -110,17 +81,14 @@ namespace MusicHelper
         }
 
         private void musicValue_Scroll(object sender, EventArgs e)
-        {
-            audioPlayer.Pause();
-            audioPlayer.AudioFileReader.Position = 0;
-            audioPlayer.AudioFileReader.Skip(musicValue.Value);
-            UpdateListeningTime();
-            audioPlayer.Play();
+        {            
+            audioPlayer.ChangeScrollBarValue(musicValue.Value);
+            UpdateListeningTime();         
         }
 
         private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            audioPlayer.Pause();
+            Stop();
             musicValue.Value = 0;
             selectedSongName = musicListBox.SelectedItem.ToString();
 
@@ -128,8 +96,8 @@ namespace MusicHelper
 
             if (songFileInfo != null)
             {
-             //   audioPlayer.AudioFileReader = new AudioFileReader(songFileInfo.Name);
-             //   musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                audioPlayer.AudioFileReader = new AudioFileReader(songFileInfo.Path);
+                musicValue.Maximum = (int)audioPlayer.AudioFileReader.TotalTime.TotalSeconds;
             }
 
             UpdateListeningTime();
@@ -153,132 +121,65 @@ namespace MusicHelper
             else if (infinitiMusic.Checked)
             {
                 SetSameTrack();
-                audioPlayer.Play();
             } 
             else if (leftTrackCount.Value>0)
             {
                 SetSameTrack();
                 leftTrackCount.Value--;
-                audioPlayer.Play();
             }
             else
             {
+                Stop();
                 audioPlayer.FindTrack(true);
+                SetCurrentItem();
+                Play();
             }
         }
 
         private void SetSameTrack()
         {
-            audioPlayer.Pause();
-            int SongIndex = musicListBox.SelectedIndex;
-            //audioFileReader = new AudioFileReader(addedMusic[SongIndex].FullName);
-            musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-            musicValue.Value = 0;
+            audioPlayer.SetSameTrack(musicListBox.SelectedIndex);
+            SetCurrentItem();
         }
        
         private void nextTrack_Click(object sender, EventArgs e)
         {
-            audioPlayer.Pause();
+            Stop();
             audioPlayer.NextTrack();
-           
+            SetCurrentItem();
+            Play();
         }
 
         private void previousTrack_Click(object sender, EventArgs e)
         {
-            audioPlayer.Pause();
+            Stop();
             audioPlayer.PastTrack();
-           
+            SetCurrentItem();
+            Play();
         }
 
-        /*
-        private void FindTrack(bool nextTrack)
+        private void SetCurrentItem()
         {
-            audioPlayer.Pause();
-
-            if (nextTrack)
-            {
-                int nextSongIndex = CountNextIndex();
-
-                SetCurrenTrack(nextSongIndex);
-            } 
-            else
-            {
-                int nextSongIndex = CountPastIndex();
-
-                SetCurrenTrack(nextSongIndex);
-            }
-
-            leftTrackCount.Value = 0;
-            UpdateListeningTime();
-
-            audioPlayer.Play();
-        }
-
-        private void SetCurrenTrack(int nextSongIndex)
-        {
-            audioFileReader = new AudioFileReader(addedMusic[nextSongIndex].FullName);
-            musicValue.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+            musicListBox.SelectedIndex = audioPlayer.Index;
             musicValue.Value = 0;
-            musicListBox.SelectedIndex = nextSongIndex;
         }
-
-        private int CountNextIndex()
-        {
-            int firstSongIndex = 0;
-
-            int nextSongIndex = musicListBox.SelectedIndex + 1;
-
-            if (nextSongIndex > addedMusic.Count - 1)
-                nextSongIndex = firstSongIndex;
-
-            return nextSongIndex;
-        }
-
-        private int CountPastIndex()
-        {
-            int lastSongIndex = addedMusic.Count - 1;
-
-            int nextSongIndex = musicListBox.SelectedIndex - 1;
-
-            if (nextSongIndex < 0)
-                nextSongIndex = lastSongIndex;
-
-            return nextSongIndex;
-        }
-        */
 
         private void randomTrack_CheckedChanged(object sender, EventArgs e)
         {
-                musicListBox.Items.Clear();
+            musicListBox.Items.Clear();
 
             if (randomTrack.Checked)
             {
-                backUpList.AddRange(addedMusic);
-
-
-                CreateRandomTracksList();
-
-                SetTracksList(randomTrackList);
+                audioPlayer.CreateRandomTracksList();
+                SetTracksList(audioPlayer.RandomTrackList);
             } 
             else
-            {
-              
-                SetTracksList(addedMusic);
-            }
-        }
-
-        private void CreateRandomTracksList()
-        {
-            for (int i = 0; i < addedMusic.Count; i++)
-                randomTrackList.Clear();
-            {
-                int index = new Random().Next(0, backUpList.Count);
-                randomTrackList.Add(backUpList[index]);
-                backUpList.RemoveAt(index);
+            { 
+                SetTracksList(audioPlayer.AddedMusic);
             }
         }
  
-        private void SetTracksList(List<FileInfo> musicList)
+        private void SetTracksList(List<Song> musicList)
         {  
             foreach (var item in musicList)
             {
