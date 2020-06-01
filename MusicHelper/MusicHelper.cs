@@ -121,73 +121,59 @@ namespace MusicHelper
                 musicValue.Value++;
                 UpdateListeningTime();
             }
-            else if (infinitiMusic.Checked)
-            {
-                SetSameTrack();
-            } 
-            else if (leftTrackCount.Value>0)
-            {
-                SetSameTrack();
-                leftTrackCount.Value--;
-            }
             else
             {
-                Stop();
-                audioPlayer.FindTrack(true);
+                CheckForCurrentSong();
+                leftTrackCount.Value = audioPlayer.SongsLeft;
                 SetCurrentItem();
-                Play();
-            }
+            }            
         }
 
-        private void SetSameTrack()
+        private void CheckForCurrentSong()
         {
-            audioPlayer.SetSameTrack(musicListBox.SelectedIndex);
-            SetCurrentItem();
+            audioPlayer.CheckIfSameTrack(musicListBox.SelectedIndex);
+            musicValue.Value = 0;
         }
-       
+        
         private void nextTrack_Click(object sender, EventArgs e)
         {
             Stop();
             audioPlayer.NextTrack();
             SetCurrentItem();
-            Play();
         }
 
         private void previousTrack_Click(object sender, EventArgs e)
         {
             Stop();
             audioPlayer.PastTrack();
-            SetCurrentItem();
-            Play();
+            SetCurrentItem();            
         }
 
         private void SetCurrentItem()
         {
+            Stop(); //TODO исправить двойной таймер
             musicListBox.SelectedIndex = audioPlayer.Index;
             musicValue.Value = 0;
+            Play();
         }
 
         private void randomTrack_CheckedChanged(object sender, EventArgs e)
         {
-            musicListBox.Items.Clear();
-
             if (randomTrack.Checked)
-            {
-                audioPlayer.CreateRandomTracksList();
-                SetTracksList(audioPlayer.RandomTrackList);
-            } 
+                audioPlayer.IsRandom = true;
             else
-            { 
-                SetTracksList(audioPlayer.AddedMusic);
-            }
+                audioPlayer.IsRandom = false;
+
+            musicListBox.Items.Clear();
+            
+            SetTracksList();
         }
  
-        private void SetTracksList(List<Song> musicList)
-        {  
-            foreach (var item in musicList)
-            {
+        private void SetTracksList()
+        {
+            List<Song> currentList = audioPlayer.SetTracksList();
+            foreach (var item in currentList)
                 musicListBox.Items.Add(item.Name);
-            }
         }
 
         private void UpdateListeningTime()
@@ -202,15 +188,9 @@ namespace MusicHelper
         private void ChangeInterface_Click(object sender, EventArgs e)
         {
             if (!smallInterface)
-            {
                 SetSmallInterface();
-               
-            }
             else
-            {
                 SetBigInterface();
-                
-            }
         }
 
         void SetSmallInterface()
@@ -307,6 +287,19 @@ namespace MusicHelper
 
             loudTrackBar.Size = new Size(204, 45);
             loudTrackBar.Location = new Point(12, 404);
+        }
+
+        private void leftTrackCount_ValueChanged(object sender, EventArgs e)
+        {
+            audioPlayer.SongsLeft = (int)leftTrackCount.Value;
+        }
+
+        private void infinitiMusic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (infinitiMusic.Checked)            
+                audioPlayer.IsInfiniti = true;
+            else
+                audioPlayer.IsInfiniti = false;
         }
     }
 }

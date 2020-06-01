@@ -123,6 +123,7 @@
             this.infinitiMusic.TabIndex = 11;
             this.infinitiMusic.Text = "∞      ";
             this.infinitiMusic.UseVisualStyleBackColor = true;
+            this.infinitiMusic.CheckedChanged += new System.EventHandler(this.infinitiMusic_CheckedChanged);
             // 
             // label1
             // 
@@ -173,6 +174,7 @@
             this.leftTrackCount.Name = "leftTrackCount";
             this.leftTrackCount.Size = new System.Drawing.Size(65, 20);
             this.leftTrackCount.TabIndex = 18;
+            this.leftTrackCount.ValueChanged += new System.EventHandler(this.leftTrackCount_ValueChanged);
             // 
             // ChangeInterface
             // 

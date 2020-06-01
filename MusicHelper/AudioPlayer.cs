@@ -30,8 +30,6 @@ namespace MusicHelper
 
         public AudioPlayer()
         {
-            // MusicHelper interFace = new MusicHelper();
-
             AddedMusic = new List<Song>();
             IsPlaying = false;
             WaveOutDevice = new WaveOut();
@@ -72,40 +70,21 @@ namespace MusicHelper
             if (nextTrack)
             {
                 if (Index + 1 > AddedMusic.Count() - 1)
-                {
                     Index = 0;
-                }
                 else
                     Index++;
 
-                SetCurrenTrack();
+                SetTrack();
             }
             else
             {
                 if (Index - 1 < 0)
-                {
                     Index = AddedMusic.Count() - 1;
-                }
                 else
                     Index--;
 
-                SetCurrenTrack();
+                SetTrack();
             }
-        }
-
-        private void SetCurrenTrack()
-        {
-            AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);
-            //WaveOutDevice.Init(AudioFileReader); 
-            
-        }
-
-        public void SetSameTrack(int index)
-        {
-            Pause();
-            Index = index;
-            AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);
-            Play();
         }
 
         public void ChangeScrollBarValue(int skipTime)
@@ -116,7 +95,7 @@ namespace MusicHelper
             Play();
         }
         
-        public void CreateRandomTracksList()
+        public List<Song> CreateRandomTracksList()
         {
             List<Song> backUpList = new List<Song>();
 
@@ -130,6 +109,44 @@ namespace MusicHelper
                 RandomTrackList.Add(backUpList[index]);
                 backUpList.RemoveAt(index);
             }
+
+            return RandomTrackList;
         }
+
+        public List<Song> SetTracksList()
+        {
+            if (IsRandom)
+                return CreateRandomTracksList();
+            else
+                return AddedMusic;            
+        }
+
+        public void CheckIfSameTrack(int index)
+        {
+            Index = index;
+
+            if (IsInfiniti)
+                SetTrack();
+            else if (SongsLeft > 0)
+            {
+                SetTrack();
+                SongsLeft--;
+            }
+            else
+            {
+                FindTrack(true);
+            }
+        }
+
+        public void SetTrack()
+        {
+            Pause();      
+            AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);            
+        }
+
+
+
+
+
     }
 }
