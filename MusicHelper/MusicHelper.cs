@@ -68,14 +68,10 @@ namespace MusicHelper
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (!audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)
-            {
-                Play();
-            }
-            else
-            {
-                Stop();
-            }
+            if (!audioPlayer.IsPlaying && audioPlayer.AudioFileReader != null)            
+                Play();           
+            else            
+                Stop();            
         }
 
         private void loudTrackBar_Scroll(object sender, EventArgs e)
@@ -151,7 +147,7 @@ namespace MusicHelper
 
         private void SetCurrentItem()
         {
-            Stop(); //TODO исправить двойной таймер
+            Stop(); 
             musicListBox.SelectedIndex = audioPlayer.Index;
             musicValue.Value = 0;
             Play();

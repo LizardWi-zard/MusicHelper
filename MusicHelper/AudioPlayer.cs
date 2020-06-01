@@ -132,21 +132,13 @@ namespace MusicHelper
                 SetTrack();
                 SongsLeft--;
             }
-            else
-            {
-                FindTrack(true);
-            }
+            else            
+                FindTrack(true);            
         }
 
         public void SetTrack()
-        {
-            Pause();      
+        {              
             AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);            
         }
-
-
-
-
-
     }
 }
