@@ -115,10 +115,12 @@ namespace MusicHelper
 
         public List<Song> SetTracksList()
         {
+            Index = 0;
+
             if (IsRandom)
                 return CreateRandomTracksList();
             else
-                return AddedMusic;            
+                return AddedMusic;
         }
 
         public void CheckIfSameTrack(int index)
@@ -139,6 +141,18 @@ namespace MusicHelper
         public void SetTrack()
         {              
             AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);            
+        }
+
+        public DateTime UpdateMaxListeningTime(int maxValue)
+        {
+            DateTime songLength = new DateTime(2020, 5, 22, maxValue / 6000, maxValue / 60, maxValue % 60);
+            return songLength;
+        }
+
+        public DateTime UpdateCurrentListeningTime( int currentValue)
+        {
+            DateTime currentMoment = new DateTime(2020, 5, 22, currentValue/ 6000, currentValue / 60, currentValue % 60);
+            return currentMoment;
         }
     }
 }

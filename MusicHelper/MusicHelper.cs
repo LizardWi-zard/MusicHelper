@@ -53,7 +53,7 @@ namespace MusicHelper
         
         private void Play()
         {
-            ChangeMusicValuseOutput();
+            ChangeMusicValueOutput();
             audioPlayer.Play();
             startButton.Text = "┃┃";
         }
@@ -82,7 +82,7 @@ namespace MusicHelper
         private void musicValue_Scroll(object sender, EventArgs e)
         {            
             audioPlayer.ChangeScrollBarValue(musicValue.Value);
-            UpdateListeningTime();         
+            UpdateListeningProgress();         
         }
 
         private void musicListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,10 +99,10 @@ namespace MusicHelper
                 musicValue.Maximum = (int)audioPlayer.AudioFileReader.TotalTime.TotalSeconds;
             }
 
-            UpdateListeningTime();
+            UpdateListeningProgress();
         }
 
-        private void ChangeMusicValuseOutput()
+        private void ChangeMusicValueOutput()
         {
             timer = new Timer();
             timer.Interval = 1000;
@@ -115,7 +115,7 @@ namespace MusicHelper
             if (musicValue.Value < musicValue.Maximum)
             {
                 musicValue.Value++;
-                UpdateListeningTime();
+                UpdateListeningProgress();
             }
             else
             {
@@ -172,13 +172,24 @@ namespace MusicHelper
                 musicListBox.Items.Add(item.Name);
         }
 
-        private void UpdateListeningTime()
+        private void UpdateListeningProgress()
         {
-            currentMoment = new DateTime(2020, 5, 22, musicValue.Value / 6000, musicValue.Value / 60, musicValue.Value % 60);
-            currentMomentLable.Text = currentMoment.ToString("mm:ss");
+            currentMomentLable.Text = audioPlayer.UpdateCurrentListeningTime(musicValue.Value).ToString("mm:ss"); 
 
-            songLength = new DateTime(2020, 5, 22, musicValue.Maximum / 6000, musicValue.Maximum / 60, musicValue.Maximum % 60);
-            maxLengthLabel.Text = songLength.ToString("mm:ss");
+            maxLengthLabel.Text = audioPlayer.UpdateMaxListeningTime(musicValue.Maximum).ToString("mm:ss");
+        }
+
+        private void leftTrackCount_ValueChanged(object sender, EventArgs e)
+        {
+            audioPlayer.SongsLeft = (int)leftTrackCount.Value;
+        }
+
+        private void infinitiMusic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (infinitiMusic.Checked)            
+                audioPlayer.IsInfiniti = true;
+            else
+                audioPlayer.IsInfiniti = false;
         }
 
         private void ChangeInterface_Click(object sender, EventArgs e)
@@ -283,19 +294,6 @@ namespace MusicHelper
 
             loudTrackBar.Size = new Size(204, 45);
             loudTrackBar.Location = new Point(12, 404);
-        }
-
-        private void leftTrackCount_ValueChanged(object sender, EventArgs e)
-        {
-            audioPlayer.SongsLeft = (int)leftTrackCount.Value;
-        }
-
-        private void infinitiMusic_CheckedChanged(object sender, EventArgs e)
-        {
-            if (infinitiMusic.Checked)            
-                audioPlayer.IsInfiniti = true;
-            else
-                audioPlayer.IsInfiniti = false;
         }
     }
 }
