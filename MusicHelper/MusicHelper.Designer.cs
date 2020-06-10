@@ -191,7 +191,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(234, 346);
+            this.ClientSize = new System.Drawing.Size(235, 346);
             this.Controls.Add(this.ChangeInterface);
             this.Controls.Add(this.leftTrackCount);
             this.Controls.Add(this.maxLengthLabel);
@@ -219,20 +219,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Button openButton;
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.TrackBar loudTrackBar;
-        private System.Windows.Forms.TrackBar musicValue;
-        private System.Windows.Forms.ListBox musicListBox;
-        private System.Windows.Forms.Button previousTrack;
-        private System.Windows.Forms.Button nextTrack;
-        private System.Windows.Forms.CheckBox infinitiMusic;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label currentMomentLable;
-        private System.Windows.Forms.CheckBox randomTrack;
-        private System.Windows.Forms.Label maxLengthLabel;
-        private System.Windows.Forms.NumericUpDown leftTrackCount;
-        private System.Windows.Forms.Button ChangeInterface;
+        internal System.Windows.Forms.Button openButton;
+        internal System.Windows.Forms.Button startButton;
+        internal System.Windows.Forms.TrackBar loudTrackBar;
+        internal System.Windows.Forms.TrackBar musicValue;
+        internal System.Windows.Forms.ListBox musicListBox;
+        internal System.Windows.Forms.Button previousTrack;
+        internal System.Windows.Forms.Button nextTrack;
+        internal System.Windows.Forms.CheckBox infinitiMusic;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Label currentMomentLable;
+        internal System.Windows.Forms.CheckBox randomTrack;
+        internal System.Windows.Forms.Label maxLengthLabel;
+        internal System.Windows.Forms.NumericUpDown leftTrackCount;
+        internal System.Windows.Forms.Button ChangeInterface;
     }
 }
 

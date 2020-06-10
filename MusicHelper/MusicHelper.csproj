@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Theme.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="MusicHelper.cs">
       <SubType>Form</SubType>
