@@ -135,15 +135,30 @@ namespace MusicHelper
         private void nextTrack_Click(object sender, EventArgs e)
         {
             Stop();
-            audioPlayer.NextTrack();
-            SetCurrentItem();
+            CheckForNullObject(true);
         }
 
         private void previousTrack_Click(object sender, EventArgs e)
         {
             Stop();
-            audioPlayer.PastTrack();
-            SetCurrentItem();            
+            CheckForNullObject(false);
+        }
+
+        void CheckForNullObject(bool next)
+        {
+            if (audioPlayer.AudioFileReader != null)
+            {
+                if (next)
+                {
+                    audioPlayer.NextTrack();
+                    SetCurrentItem();
+                }
+                else 
+                {
+                    audioPlayer.PastTrack();
+                    SetCurrentItem();
+                }
+            }
         }
 
         private void SetCurrentItem()

@@ -139,7 +139,8 @@ namespace MusicHelper
         }
 
         public void SetTrack()
-        {              
+        {
+                if(AudioFileReader != null)
             AudioFileReader = new AudioFileReader(AddedMusic[Index].Path);            
         }
 
