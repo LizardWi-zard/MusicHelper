@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MusicHelper
 {
-    public partial class MusicHelper : Form
+    public partial class MusicHelper : Form 
     {
         Timer timer;
                 
@@ -171,11 +171,8 @@ namespace MusicHelper
 
         private void randomTrack_CheckedChanged(object sender, EventArgs e)
         {
-            if (randomTrack.Checked)
-                audioPlayer.IsRandom = true;
-            else
-                audioPlayer.IsRandom = false;
-
+            audioPlayer.IsRandom = randomTrack.Checked;
+               
             musicListBox.Items.Clear();
             
             SetTracksList();
@@ -202,10 +199,7 @@ namespace MusicHelper
 
         private void infinitiMusic_CheckedChanged(object sender, EventArgs e)
         {
-            if (infinitiMusic.Checked)            
-                audioPlayer.IsInfiniti = true;
-            else
-                audioPlayer.IsInfiniti = false;
+            audioPlayer.IsInfiniti = infinitiMusic.Checked;          
         }
 
         private void ChangeInterface_Click(object sender, EventArgs e)
